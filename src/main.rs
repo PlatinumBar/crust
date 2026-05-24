@@ -42,8 +42,9 @@ fn main() {
         window.clear().unwrap();
 
         window.set_draw_color(0, 0, 0, 255).unwrap();
-        window.draw_points(&[[points[points.len()-1].x, points[points.len()-1].y - HEIGHT]]).unwrap();
-
+        for point in &points {
+        window.draw_points(&[[point.x, point.y - HEIGHT]]).unwrap();
+        }
         window.present();
     }
 
