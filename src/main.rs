@@ -1,5 +1,9 @@
 use std::io;
 
+use cgmath::Point2;
+use cgmath::Matrix3;
+use cgmath::Vector2;
+
 use beryllium::*;
 use beryllium::init::InitFlags;
 use beryllium::events::Event;
@@ -12,17 +16,11 @@ use beryllium::events::{
 const WIDTH: i32 = 1600;
 const HEIGHT: i32 = 600;
 
-#[derive(Debug)]
-struct Point {
-    x: i32,
-    y: i32
-}
-
 fn main() {
     let mut x_offset: i32 = 0;
     let mut counter = 0;
-
-    let sdl = Sdl::init(InitFlags::EVERYTHING);
+    
+   let sdl = Sdl::init(InitFlags::EVERYTHING);
 
     let window = sdl
         .create_renderer_window(CreateWinArgs { title: "COLLATZ", width: WIDTH, height: HEIGHT, ..Default::default()},
@@ -45,7 +43,7 @@ fn main() {
             }
         }
         counter += 1;
-        points.push(Point {x: counter, y: collatz(counter)});
+        points.push(Point2 {x: counter, y: collatz(counter)});
         println!("Info:: added new point: {:?}", points[points.len()-1]);
     
         window.set_draw_color(255, 255, 255, 254).unwrap();
@@ -53,7 +51,7 @@ fn main() {
 
         window.set_draw_color(0, 0, 0, 255).unwrap();
         for point in &points {
-        window.draw_points(&[[(point.x - x_offset), point.y]]).unwrap();
+        window.draw_points(&[[(point.x - x_offset), (HEIGHT - point.y)]]).unwrap();
         }
         window.present();
     }
