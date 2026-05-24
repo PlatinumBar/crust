@@ -5,7 +5,10 @@ use beryllium::init::InitFlags;
 use beryllium::events::Event;
 use beryllium::video::CreateWinArgs;
 use beryllium::video::RendererFlags;
-
+use beryllium::events::{
+    SDLK_LEFT,
+    SDLK_RIGHT
+};
 const WIDTH: i32 = 1600;
 const HEIGHT: i32 = 600;
 
@@ -16,7 +19,7 @@ struct Point {
 }
 
 fn main() {
-
+    let mut x_offset: i32 = 0;
     let mut counter = 0;
 
     let sdl = Sdl::init(InitFlags::EVERYTHING);
@@ -31,6 +34,13 @@ fn main() {
         while let Some((event, _timestamp)) = sdl.poll_events() {
             match event {
                 Event::Quit => break 'main_loop,
+                Event::Key {keycode, ..} => {
+                    if keycode == SDLK_LEFT {
+                        x_offset+=100;
+                    } else if keycode == SDLK_RIGHT {
+                        x_offset -= 100;
+                    }
+                },
                 _ => (),
             }
         }
@@ -43,7 +53,7 @@ fn main() {
 
         window.set_draw_color(0, 0, 0, 255).unwrap();
         for point in &points {
-        window.draw_points(&[[point.x, point.y]]).unwrap();
+        window.draw_points(&[[(point.x - x_offset), point.y]]).unwrap();
         }
         window.present();
     }
