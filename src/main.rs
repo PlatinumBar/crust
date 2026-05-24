@@ -7,7 +7,7 @@ use beryllium::video::CreateWinArgs;
 use beryllium::video::RendererFlags;
 
 const WIDTH: i32 = 1600;
-const HEIGHT: i32 = 1200;
+const HEIGHT: i32 = 600;
 
 #[derive(Debug)]
 struct Point {
@@ -43,7 +43,7 @@ fn main() {
 
         window.set_draw_color(0, 0, 0, 255).unwrap();
         for point in &points {
-        window.draw_points(&[[point.x, point.y - HEIGHT]]).unwrap();
+        window.draw_points(&[[point.x, point.y]]).unwrap();
         }
         window.present();
     }
